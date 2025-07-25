@@ -1,0 +1,12 @@
+# vscode files
+.vscode/
+
+# metals files
+.metals/
+
+# Target folders
+target/
+project/target/
+
+# Read me file for now
+Readme.md.docx
