@@ -66,8 +66,8 @@ sudo apt install sbt -y
 ### Step 3: Clone and Setup Project
 
 ```bash
-git clone <repository-url>
-cd shopping-basket-new
+git clone https://github.com/ramahrk/shopping_basket.git
+cd shopping-basket
 ```
 
 ### Step 4: Verify Installation
@@ -254,7 +254,7 @@ This project includes robust error handling and well-documented source code:
 java -version
 sbt version
 git clone <repo>
-cd shopping-basket-new
+cd shopping-basket
 sbt compile
 sbt "run Apples Milk Bread"
 sbt test
