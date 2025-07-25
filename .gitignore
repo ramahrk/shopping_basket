@@ -13,6 +13,3 @@ project/target/
 
 # .bak
 *.bak
-
-# .venv
-venv/
