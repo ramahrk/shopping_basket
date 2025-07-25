@@ -1,6 +1,9 @@
 # vscode files
 .vscode/
 
+# sbt
+.bsp/
+
 # metals files
 .metals/
 

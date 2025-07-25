@@ -1,3 +1,4 @@
+
 # Shopping Basket Pricing System
 
 A Scala-based command-line application that calculates the total price of a shopping basket with special offers.
@@ -17,7 +18,6 @@ A Scala-based command-line application that calculates the total price of a shop
 - SBT 1.8.2
 - Eclipse Adoptium Java 17.0.16
 
-
 - Java 8 or higher
 - SBT (Scala Build Tool) 1.5.0 or higher
 
@@ -33,36 +33,26 @@ java -version
 
 If Java is not installed:
 
-- **Windows**: [Download from Oracle](https://www.oracle.com/java/technologies/downloads/)
-- **macOS**: `brew install openjdk@11`
-- **Ubuntu/Debian**: `sudo apt-get install openjdk-11-jdk`
+- **Windows**: Install Temurin OpenJDK 17 from https://adoptium.net/en-GB/temurin/releases/
+  - Set `JAVA_HOME = C:\Program Files\Eclipse Adoptium\jdk-17.x.x`
+  - Add `%JAVA_HOME%\bin` to your system `PATH`
+- **Ubuntu/Debian**: `sudo apt install openjdk-17-jre-headless -y`
 
 ### Step 2: Install SBT
 
-**macOS (using Homebrew)**:
-```bash
-brew install sbt
-```
+**Windows**:
+1. Download from https://www.scala-sbt.org/download.html
+2. Run the installer
+3. Add SBT to your system PATH
 
 **Ubuntu/Debian**:
 ```bash
 echo "deb https://repo.scala-sbt.org/scalasbt/debian all main" | sudo tee /etc/apt/sources.list.d/sbt.list
-curl -sL "https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x2EE0EA64E40A89B84B2DF73499E82A75642AC823" | sudo apt-key add
-sudo apt-get update
-sudo apt-get install sbt
+curl -sL "https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x99E82A75642AC823" | sudo apt-key add -
+sudo apt update
+sudo apt install sbt -y
 ```
 
-**Windows**:
-
-1. Download from [sbt download page](https://www.scala-sbt.org/download.html)
-2. Run the installer
-3. Add SBT to your system PATH
-
-**Manual (for all OS)**:
-```bash
-curl -L https://github.com/sbt/sbt/releases/download/v1.8.2/sbt-1.8.2.tgz | tar -xz
-export PATH=$PATH:./sbt/bin
-```
 
 ### Step 3: Clone and Setup Project
 
@@ -90,8 +80,8 @@ sbt "run item1 item2 item3"
 
 - Soup - 65p per tin
 - Bread - 80p per loaf
-- Milk - £1.30 per bottle
-- Apples - £1.00 per bag
+- Milk - GBP 1.30 per bottle
+- Apples - GBP 1.00 per bag
 
 ---
 
@@ -203,12 +193,30 @@ sbt ~compile
 sbt ~test
 ```
 
-## Known Issue (Windows Terminal Encoding)
+---
 
-If GBP symbol (`£`) appears as junk like `┬ú`, either:
+## ✅ Encoding Note (Windows Terminal)
 
-1. **Use WSL or Linux/Mac terminals**, or
-2. **Override format with "GBP" instead of "£" in CurrencyFormatter.scala**
+On **Windows terminals** (e.g., PowerShell, Git Bash), the pound symbol `£` may render incorrectly as garbled characters (like `┬ú`) due to code page or font limitations.
+
+### 💡 Resolution / Fix:
+
+This issue has been fixed by updating the currency output:
+
+- `CurrencyFormatter.scala` now uses `"GBP"` instead of `£`  
+  ➤ Example: `Subtotal: GBP 3.10` instead of `Subtotal: £3.10`  
+  ✅ Ensures clean and consistent output across all environments.
+
+### ✅ Supported Environments
+
+You can safely run the application from:
+
+- **Linux/macOS terminals**
+- **WSL (Windows Subsystem for Linux)**
+- **Windows Command Prompt (cmd.exe)**
+- **PowerShell and Git Bash** — now also display correct output (since `GBP` is ASCII)
+
+> ⚠️ If reverting back to the `£` symbol for localization, use WSL or Unix-based terminals, or change your Windows code page with `chcp 65001`.
 
 ---
 
@@ -233,70 +241,3 @@ This application fulfills all assignment requirements for:
 - Command-line interface
 - Unit tests for correctness
 
-🎉 Ready for submission.
-
-## Java and SBT Installation Guide (Windows & Linux)
-
-### Linux (Ubuntu/Debian)
-
-**Step 1: Install Java (OpenJDK 17)**
-```bash
-sudo apt update
-sudo apt install openjdk-17-jre-headless -y
-```
-
-**Verify Java Installation**
-```bash
-java -version
-```
-
-**Step 2: Install SBT**
-
-*Option A: Manual install (Recommended)*
-```bash
-echo "deb https://repo.scala-sbt.org/scalasbt/debian all main" | sudo tee /etc/apt/sources.list.d/sbt.list
-curl -sL "https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x99E82A75642AC823" | sudo apt-key add -
-sudo apt update
-sudo apt install sbt -y
-```
-
-**Verify SBT Installation**
-```bash
-sbt sbtVersion
-```
-
-*Option B: Install via SDKMAN (for version control)*
-```bash
-sudo apt update && sudo apt install zip unzip -y
-curl -s "https://get.sdkman.io" | bash
-source "$HOME/.sdkman/bin/sdkman-init.sh"
-sdk install sbt 1.8.2
-```
-
----
-
-### Windows
-
-**Step 1: Install Java (OpenJDK 17)**
-
-1. Download Temurin OpenJDK 17 MSI installer from:  
-   https://adoptium.net/en-GB/temurin/releases/
-2. Install it, then set environment variables:  
-   `JAVA_HOME = C:\Program Files\Eclipse Adoptium\jdk-17.x.x`  
-   Add `%JAVA_HOME%\bin` to your `PATH`
-
-**Verify Java Installation**
-```cmd
-java -version
-```
-
-**Step 2: Install SBT**
-
-1. Download the SBT installer from:  
-   https://www.scala-sbt.org/download.html
-2. Run the installer. It sets up everything.
-
-**Verify SBT Installation**
-```cmd
-sbt sbtVersion
-```
