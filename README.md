@@ -15,6 +15,7 @@ A Scala-based command-line application that calculates the total price of a shop
 - 🔧 Easily extendable offer system — add new discount rules by implementing the Offer trait and registering them in OfferEngine.scala
 
 ## Prerequisites
+
 **Tested With:**
 - SBT 1.8.2
 - Eclipse Adoptium Java 17.0.16
@@ -38,11 +39,13 @@ If Java is not installed:
   - Install the MSI Package.
   - Set `JAVA_HOME = C:\Program Files\Eclipse Adoptium\jdk-17.x.x`
   - Add `%JAVA_HOME%\bin` to your system `PATH`
-- **Ubuntu/Debian**: `sudo apt-get install openjdk-17-jre-headless -y`
-  - export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
-  - export PATH=$JAVA_HOME/bin:$PATH
-  - source ~/.bashrc
-  
+- **Ubuntu/Debian**: 
+  ```bash
+  sudo apt-get install openjdk-17-jre-headless -y
+  export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
+  export PATH=$JAVA_HOME/bin:$PATH
+  source ~/.bashrc
+  ```
 
 ### Step 2: Install SBT
 
@@ -154,12 +157,12 @@ Total price: GBP 2.20
 sbt test                     # Run all tests
 sbt "testOnly * -- -oD"      # Detailed output
 sbt "testOnly *BasketSpec"  # Individual suite
-sbt "testOnly *DiscountSpec"  # Individual suite
-sbt "testOnly *ItemSpec"  # Individual suite
-sbt "testOnly *OfferEngineSpec"  # Individual suite
-sbt "testOnly *OfferSpec"  # Individual suite
-sbt "testOnly *PriceCalculatorSpec"  # Individual suite
-sbt "testOnly *CurrencyFormatterSpec"  # Individual suite
+sbt "testOnly *DiscountSpec"
+sbt "testOnly *ItemSpec"
+sbt "testOnly *OfferEngineSpec"
+sbt "testOnly *OfferSpec"
+sbt "testOnly *PriceCalculatorSpec"
+sbt "testOnly *CurrencyFormatterSpec"
 ```
 
 ## Project Structure
@@ -208,35 +211,47 @@ sbt ~test
 
 ---
 
-##  Encoding Note (Windows Terminal)
+## Encoding Note (Windows Terminal)
 
 On **Windows terminals** (e.g., PowerShell, Git Bash), the pound symbol `£` may render incorrectly as garbled characters (like `┬ú`) due to code page or font limitations.
 
-###  Resolution / Fix:
+### Resolution / Fix
 
 This issue has been fixed by updating the currency output:
 
 - `CurrencyFormatter.scala` now uses `"GBP"` instead of `£`  
-   Example: `Subtotal: GBP 3.10` instead of `Subtotal: £3.10`  
-    Ensures clean and consistent output across all environments.
+  Example: `Subtotal: GBP 3.10` instead of `Subtotal: £3.10`
 
-###  Supported Environments
+### Supported Environments
 
 You can safely run the application from:
 
 - **Linux/macOS terminals**
 - **WSL (Windows Subsystem for Linux)**
 - **Windows Command Prompt (cmd.exe)**
-- **PowerShell and Git Bash** — now also display correct output (since `GBP` is ASCII)
+- **PowerShell and Git Bash** — now also display correct output
 
-> If reverting back to the `£` symbol for localization, use WSL or Unix-based terminals, or change your Windows code page with `chcp 65001`.
+> If reverting to the `£` symbol, use WSL or change Windows code page with `chcp 65001`.
+
+---
+
+## Code Quality & Error Handling
+
+This project includes robust error handling and well-documented source code:
+
+- **Input Validation**: Warnings for unknown items, ignored in calculations
+- **Safe Runtime**: Uses `Option`, pattern matching, and guards against invalid operations
+- **Clear Exceptions**: Graceful error messages for invalid inputs and states
+- **Encapsulation**: Separated concerns across services, models, and utilities
+- **Scaladoc Comments**: Documented every core class and function
+- **Formatted Output**: Output formatting via centralized `CurrencyFormatter`
 
 ---
 
 ## Quick Start
 
 ```bash
-java -version         # Ensure Java 8+
+java -version
 sbt version
 git clone <repo>
 cd shopping-basket-new
