@@ -6,6 +6,11 @@ import shopping.model.{Basket, Discount}
  * Engine for calculating special offers and discounts
  */
 class OfferEngine {
+
+   private val offers: List[Offer] = List(
+    ApplesDiscount,
+    SoupBreadOffer
+  )
   
   /**
    * Calculate all applicable discounts for a basket
@@ -13,10 +18,7 @@ class OfferEngine {
    * @return list of applicable discounts
    */
   def calculateDiscounts(basket: Basket): List[Discount] = {
-    List(
-      calculateApplesDiscount(basket),
-      calculateSoupBreadDiscount(basket)
-    ).flatten
+    offers.flatMap(_.apply(basket))
   }
   
   /**
@@ -28,7 +30,7 @@ class OfferEngine {
     val appleCount = basket.countOf("Apples")
     if (appleCount > 0) {
       // Find apple price from basket items
-      basket.items.find(_.name == "Apples").map { apple =>
+      basket.items.find(_.name.equalsIgnoreCase("Apples")).map { apple =>
         val totalApplePrice = apple.priceInPence * appleCount
         val discountAmount = (totalApplePrice * 0.1).round.toInt
         Discount("Apples 10% off", discountAmount)
@@ -49,7 +51,7 @@ class OfferEngine {
     
     if (soupCount >= 2 && breadCount > 0) {
       // Find bread price from basket items
-      basket.items.find(_.name == "Bread").map { bread =>
+      basket.items.find(_.name.equalsIgnoreCase("Bread")).map { bread =>
         val eligibleSoupPairs = soupCount / 2
         val discountedBreads = math.min(eligibleSoupPairs, breadCount)
         val discountAmount = (bread.priceInPence * discountedBreads) / 2

@@ -12,10 +12,10 @@ class CurrencyFormatterSpec extends AnyFlatSpec with Matchers {
   }
   
   it should "format pound amounts correctly" in {
-    CurrencyFormatter.format(100) shouldBe "£1.00"
-    CurrencyFormatter.format(130) shouldBe "£1.30"
-    CurrencyFormatter.format(200) shouldBe "£2.00"
-    CurrencyFormatter.format(310) shouldBe "£3.10"
+    CurrencyFormatter.format(100) shouldBe "GBP 1.00"
+    CurrencyFormatter.format(130) shouldBe "GBP 1.30"
+    CurrencyFormatter.format(200) shouldBe "GBP 2.00"
+    CurrencyFormatter.format(310) shouldBe "GBP 3.10"
   }
   
   it should "format zero correctly" in {
@@ -23,9 +23,9 @@ class CurrencyFormatterSpec extends AnyFlatSpec with Matchers {
   }
   
   it should "handle large amounts correctly" in {
-    CurrencyFormatter.format(1000) shouldBe "£10.00"
-    CurrencyFormatter.format(1005) shouldBe "£10.05"
-    CurrencyFormatter.format(1050) shouldBe "£10.50"
+    CurrencyFormatter.format(1000) shouldBe "GBP 10.00"
+    CurrencyFormatter.format(1005) shouldBe "GBP 10.05"
+    CurrencyFormatter.format(1050) shouldBe "GBP 10.50"
   }
   
   it should "throw exception for negative amounts" in {

@@ -36,6 +36,7 @@ object Main extends App {
   }
   
   private def parseItems(itemNames: Array[String]): List[Item] = {
+    val normalizedAvailableItems = availableItems.map { case (k, v) => k.toLowerCase -> v }
     val (validItems, invalidItems) = itemNames.toList
       .map(_.trim.capitalize)
       .map(name => (name, availableItems.get(name)))

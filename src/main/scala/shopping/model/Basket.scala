@@ -38,7 +38,7 @@ case class Basket(items: List[Item]) {
    * @return number of items with the given name
    */
   def countOf(itemName: String): Int = {
-    itemCounts.getOrElse(itemName, 0)
+    items.count(_.name.equalsIgnoreCase(itemName))
   }
 }
 

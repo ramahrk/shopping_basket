@@ -8,5 +8,5 @@
 target/
 project/target/
 
-# Read me file for now
-Readme.md.docx
+# .bak
+*.bak

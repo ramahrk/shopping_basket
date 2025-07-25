@@ -8,4 +8,5 @@ package shopping.model
 case class Item(name: String, priceInPence: Int) {
   require(priceInPence >= 0, "Price cannot be negative")
   require(name.nonEmpty, "Item name cannot be empty")
+  val normalizedName: String = name.trim.capitalize
 }
