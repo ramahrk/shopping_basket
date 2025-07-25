@@ -12,6 +12,7 @@ A Scala-based command-line application that calculates the total price of a shop
 - Command-line interface
 - Comprehensive unit tests
 - Clean, maintainable code structure
+- 🔧 Easily extendable offer system — add new discount rules by implementing the Offer trait and registering them in OfferEngine.scala
 
 ## Prerequisites
 **Tested With:**
@@ -33,17 +34,23 @@ java -version
 
 If Java is not installed:
 
-- **Windows**: Install Temurin OpenJDK 17 from https://adoptium.net/en-GB/temurin/releases/
+- **Windows**: Download Temurin OpenJDK 17 from https://adoptium.net/en-GB/temurin/releases/
+  - Install the MSI Package.
   - Set `JAVA_HOME = C:\Program Files\Eclipse Adoptium\jdk-17.x.x`
   - Add `%JAVA_HOME%\bin` to your system `PATH`
-- **Ubuntu/Debian**: `sudo apt install openjdk-17-jre-headless -y`
+- **Ubuntu/Debian**: `sudo apt-get install openjdk-17-jre-headless -y`
+  - export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
+  - export PATH=$JAVA_HOME/bin:$PATH
+  - source ~/.bashrc
+  
 
 ### Step 2: Install SBT
 
 **Windows**:
 1. Download from https://www.scala-sbt.org/download.html
-2. Run the installer
-3. Add SBT to your system PATH
+2. Download the Windows MSI installer and complete the installation.
+3. Locate the SBT Installation Directory
+4. Edit the system environment variables and add SBT to your system PATH
 
 **Ubuntu/Debian**:
 ```bash
@@ -53,17 +60,17 @@ sudo apt update
 sudo apt install sbt -y
 ```
 
-
 ### Step 3: Clone and Setup Project
 
 ```bash
 git clone <repository-url>
-cd shopping-basket
+cd shopping-basket-new
 ```
 
 ### Step 4: Verify Installation
 
 ```bash
+java --version
 sbt version
 sbt compile
 ```
@@ -147,6 +154,12 @@ Total price: GBP 2.20
 sbt test                     # Run all tests
 sbt "testOnly * -- -oD"      # Detailed output
 sbt "testOnly *BasketSpec"  # Individual suite
+sbt "testOnly *DiscountSpec"  # Individual suite
+sbt "testOnly *ItemSpec"  # Individual suite
+sbt "testOnly *OfferEngineSpec"  # Individual suite
+sbt "testOnly *OfferSpec"  # Individual suite
+sbt "testOnly *PriceCalculatorSpec"  # Individual suite
+sbt "testOnly *CurrencyFormatterSpec"  # Individual suite
 ```
 
 ## Project Structure
@@ -195,19 +208,19 @@ sbt ~test
 
 ---
 
-## ✅ Encoding Note (Windows Terminal)
+##  Encoding Note (Windows Terminal)
 
 On **Windows terminals** (e.g., PowerShell, Git Bash), the pound symbol `£` may render incorrectly as garbled characters (like `┬ú`) due to code page or font limitations.
 
-### 💡 Resolution / Fix:
+###  Resolution / Fix:
 
 This issue has been fixed by updating the currency output:
 
 - `CurrencyFormatter.scala` now uses `"GBP"` instead of `£`  
-  ➤ Example: `Subtotal: GBP 3.10` instead of `Subtotal: £3.10`  
-  ✅ Ensures clean and consistent output across all environments.
+   Example: `Subtotal: GBP 3.10` instead of `Subtotal: £3.10`  
+    Ensures clean and consistent output across all environments.
 
-### ✅ Supported Environments
+###  Supported Environments
 
 You can safely run the application from:
 
@@ -216,7 +229,7 @@ You can safely run the application from:
 - **Windows Command Prompt (cmd.exe)**
 - **PowerShell and Git Bash** — now also display correct output (since `GBP` is ASCII)
 
-> ⚠️ If reverting back to the `£` symbol for localization, use WSL or Unix-based terminals, or change your Windows code page with `chcp 65001`.
+> If reverting back to the `£` symbol for localization, use WSL or Unix-based terminals, or change your Windows code page with `chcp 65001`.
 
 ---
 
@@ -224,9 +237,9 @@ You can safely run the application from:
 
 ```bash
 java -version         # Ensure Java 8+
-brew install sbt      # or apt/scoop
+sbt version
 git clone <repo>
-cd shopping-basket
+cd shopping-basket-new
 sbt compile
 sbt "run Apples Milk Bread"
 sbt test
@@ -240,4 +253,7 @@ This application fulfills all assignment requirements for:
 - Clean modular architecture
 - Command-line interface
 - Unit tests for correctness
-
+- Easily extensible offer system – New offers can be implemented by:
+  - Creating a new object extending the `Offer` trait
+  - Implementing custom discount logic in the `apply` method
+  - Registering the new offer in `OfferEngine.scala`
